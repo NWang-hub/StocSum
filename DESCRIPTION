@@ -5,7 +5,7 @@ Title: StocSum
 Author: Han Chen, Nannan Wang
 Maintainer: Han Chen <Han.Chen.2@uth.tmc.edu>
 Description: StocSum(TBD)
-License: MIT | GPL (>=2)
+License: GPL-3
 LazyData: true
 Copyright: See COPYRIGHTS for details.
 Imports: Rcpp, SeqArray, SeqVarTools, CompQuadForm, foreach, GMMAT, parallel,
