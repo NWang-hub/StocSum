@@ -17,7 +17,7 @@ The current version is 0.1.0 (Feb 24, 2023).
 This software is licensed under GPL-3.
 
 ## Contact
-Please refer to the R help document of StocSum for specific questions about each function. For comments, suggestions, bug reports and questions, please contact Han Chen (Han.Chen.2 AT uth.tmc.edu) or Nannan Wang (nannan.wnag AT uth.tmc.edu). For bug reports, please include an example to reproduce the problem without having to access your confidential data.
+Please refer to the R help document of StocSum for specific questions about each function. For comments, suggestions, bug reports and questions, please contact Han Chen (Han.Chen.2 AT uth.tmc.edu) or Nannan Wang (nannan.wang AT uth.tmc.edu). For bug reports, please include an example to reproduce the problem without having to access your confidential data.
 
 ## Acknowledgments
 
