@@ -19,11 +19,11 @@ This software is licensed under GPL-3.
 ## Contact
 Please refer to the R help document of StocSum for specific questions about each function. For comments, suggestions, bug reports and questions, please contact Han Chen (Han.Chen.2 AT uth.tmc.edu). For bug reports, please include an example to reproduce the problem without having to access your confidential data.
 
-## Copyright
-Copyright (C) 2023--2025  Nannan Wang, Han Chen
-
 ## Acknowledgments
 
 ## References
 <p>Please cite
 </p>
+
+## Copyright
+Copyright (C) 2023--2025  Nannan Wang, Han Chen
