@@ -231,23 +231,17 @@ G.stat <- function(null.obj, geno.file, meta.file.prefix, MAF.range = c(1e-7, 0.
 #' @param nperbatch An integer for how many SNPs to be included in a batch (default = 10000). The computational time can increase dramatically if this value is either small or large. The optimal value for best performance depends on the user’s system.
 #' @param ncores A positive integer indicating the number of cores to be used in parallel computing (default = 1).
 #' @return \code{LDSC.win} returns a data frame with the following components:
-#' \item{SNP}{SNP name.}
 #' \item{chr}{chromosome name.}
 #' \item{pos}{the genome location of SNP.}
-#' \item{ref}{allele of reference.}
-#' \item{alt}{alternative allele.}
 #' \item{N}{total sample size.}
 #' \item{altfreq}{alternative allele frequency.}
-#' \item{idx}{indicating SNPs.}
-#' \item{pos.end}{To which SNP (position) is included to esitmate LD score for the current SNP.}
-#' \item{pos.start}{From which SNP (position) is included to estimate LD score for the current SNP.}
 #' \item{LDscore}{LD score for each SNP.}
 #' @reference 
 #' @author Han Chen, Nannan Wang
 #' @seealso \code{LDSC.glmmkin2randomvec}, \code{G.stat}
 #' @examples
 #' \donttest{
-#' library(GMMAT)
+#' library(StocSum)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
@@ -259,7 +253,7 @@ G.stat <- function(null.obj, geno.file, meta.file.prefix, MAF.range = c(1e-7, 0.
 #' out.prefix <- "test"
 #' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
-#' out<-LDSC.win(out.prefix, use.minor.allele = FALSE, auto.flip = FALSE, wind.b = 1000000, nperbatch = 10000))
+#' out<-LDSC.win(out.prefix, use.minor.allele = FALSE, auto.flip = FALSE, wind.b = 1000000, nperbatch = 10000)
 #' }
 #' @keywords LD Score
 #' @export
@@ -386,6 +380,7 @@ LDSC.win <- function(meta.files.prefix, n.files = 1, N.randomvec=1000, MAF.range
         out$LDscore<-LDscore
         all.out <- rbind(all.out, out)
       }
+      all.out<-all.out[,c("chr","pos","N","missrate","altfreq","LDscore")]
       return(all.out)
     }
   } else { # use a single core
@@ -469,6 +464,7 @@ LDSC.win <- function(meta.files.prefix, n.files = 1, N.randomvec=1000, MAF.range
     }
   }
   close(cons)
+  all.out<-all.out[,c("chr","pos","N","missrate","altfreq","LDscore")]
   return(all.out)
 }
 
