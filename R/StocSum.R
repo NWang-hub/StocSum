@@ -23,7 +23,7 @@
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 # ' if(!is.null(nullmod$P)){
