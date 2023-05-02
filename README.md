@@ -17,7 +17,7 @@ BiocManager::install(c("SeqArray", "SeqVarTools"))
 devtools::install_github(repo="https://github.com/NWang-hub/StocSum")
 ```
 ## Usage
-Please see the <a href="inst/docs/manual.StocSum.pdf">**StocSum** user manual</a>.
+Please see the <a href="vignettes/StocSum_tutorial.pdf">**StocSum** tutorial</a> for an example of analyzing sequencing data using StocSum.
 
 ## Version
 The current version is 0.1.0 (Feb 24, 2023).
