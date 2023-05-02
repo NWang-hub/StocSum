@@ -12,9 +12,9 @@ For optimal computational performance, it is recommended to use an R version con
 
 ## Installing
 ```
-install.packages(c(“devtools”, ”RcppArmadillo”, ”CompQuadForm”, “doMC”, “foreach”, “Matrix”, “data.table”, “GMMAT”, “BiocManager”, “testthat”), repos=”https://cran.r-project.org/”)
-BiocManager::install(c(“SeqArray”, “SeqVarTools”))
-devtools::install_github(“https://github.com/NWang-hub/StocSum”)
+install.packages(c("devtools", "RcppArmadillo", "CompQuadForm", "doMC", "foreach", "Matrix", "data.table", "GMMAT", "BiocManager", "testthat"), repos="https://cran.r-project.org/")
+BiocManager::install(c("SeqArray", "SeqVarTools"))
+devtools::install_github(repo="https://github.com/NWang-hub/StocSum")
 ```
 ## Usage
 Please see the <a href="inst/docs/manual.StocSum.pdf">**StocSum** user manual</a>.
