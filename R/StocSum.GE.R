@@ -16,12 +16,13 @@
 #' @author Han Chen, Nannan Wang
 #' @examples
 #' \donttest{
+#' library(StocSum)
 #' library(GMMAT)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
@@ -91,11 +92,13 @@ glmmkin2randomvec <- function(obj, Z = NULL, N.randomvec = 1000, group.idx=NULL,
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
@@ -399,12 +402,14 @@ GE.stat <- function(null.obj, interaction, interaction.covariates = NULL, geno.f
 #' @seealso \code{glmmkin2randomvec}, \code{GE.stat}
 #' @examples
 #' \donttest{
+#' library(StocSum)
 #' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
@@ -414,7 +419,7 @@ GE.stat <- function(null.obj, interaction, interaction.covariates = NULL, geno.f
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test.GE.svt"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' interaction <- c("sex")
 #' GE.stat(obj, interaction = interaction, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 #' out.file<-paste0(out.prefix,".out")

@@ -12,12 +12,14 @@
 #' @author Han Chen, Nannan Wang
 #' @examples
 #' \donttest{
+#' library(StocSum)
 #' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' obj <- LDSC.glmmkin2randomvec(nullmod)
@@ -64,11 +66,13 @@ LDSC.glmmkin2randomvec <- function(obj, N.randomvec = 1000) {
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
@@ -78,7 +82,7 @@ LDSC.glmmkin2randomvec <- function(obj, N.randomvec = 1000) {
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
 #' }
 #' @keywords summary statistics
@@ -242,16 +246,18 @@ G.stat <- function(null.obj, geno.file, meta.file.prefix, MAF.range = c(1e-7, 0.
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' obj <- LDSC.glmmkin2randomvec(nullmod)
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
 #' out<-LDSC.win(out.prefix, use.minor.allele = FALSE, auto.flip = FALSE, wind.b = 1000000, nperbatch = 10000)
 #' }

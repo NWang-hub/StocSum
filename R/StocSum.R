@@ -17,6 +17,8 @@
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
@@ -89,11 +91,13 @@ glmmkin2randomvec <- function(obj, Z = NULL, N.randomvec = 1000, group.idx=NULL,
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
@@ -103,7 +107,7 @@ glmmkin2randomvec <- function(obj, Z = NULL, N.randomvec = 1000, group.idx=NULL,
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
 #' }
 #' @keywords summary statistics
@@ -260,11 +264,13 @@ G.stat <- function(null.obj, geno.file, meta.file.prefix, MAF.range = c(1e-7, 0.
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
@@ -274,10 +280,12 @@ G.stat <- function(null.obj, geno.file, meta.file.prefix, MAF.range = c(1e-7, 0.
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
-#' GRM1.file <- system.file("extdata", "GRM1.txt.bz2", package = "GMMAT")
+#' GRM1.file <- system.file("extdata", "GRM1.txt.bz2", package = "StocSum")
 #' GRM1 <- as.matrix(read.table(GRM1.file, check.names = FALSE))
+#' pheno1.file <- system.file("extdata", "pheno1.txt", package = "StocSum")
+#' pheno1 <- as.data.frame(read.table(pheno1.file, header=T,check.names = FALSE))
 #' nullmod1 <- glmmkin(disease ~ age + sex, data = pheno1, kins = GRM1, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
 #'   obj1 <- glmmkin2randomvec(nullmod1)
@@ -286,7 +294,7 @@ G.stat <- function(null.obj, geno.file, meta.file.prefix, MAF.range = c(1e-7, 0.
 #'   obj1 <- glmmkin2randomvec(nullmod1, Z = list(t(kinship1.chol)))
 #' }
 #' out.prefix1 <- "test1"
-#' gdsfile1 <- system.file("extdata", "geno1.gds", package = "GMMAT")
+#' gdsfile1 <- system.file("extdata", "geno1.gds", package = "StoSum")
 #' G.stat(obj1, geno.file = gdsfile1, meta.file.prefix = out.prefix1, MAF.range=c(0,0.5), miss.cutoff = 1)
 #' outMeta.prefix <- "comp.meta"
 #' svt.meta(c("test", "test1"),n.files = rep(1, 2), outfile.prefix=outMeta.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
@@ -481,11 +489,13 @@ svt.meta <- function(meta.files.prefix, n.files = rep(1, length(meta.files.prefi
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
 #' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 #' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 #' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 #' if(!is.null(nullmod$P)){
@@ -495,7 +505,7 @@ svt.meta <- function(meta.files.prefix, n.files = rep(1, length(meta.files.prefi
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
 #' out <- svt.pval(out.prefix, MAF.range=c(1e-7, 0.5), miss.cutoff = 1, auto.flip=F)
 #' }
@@ -686,6 +696,8 @@ svt.pval <- function(meta.files.prefix, n.files = rep(1, length(meta.files.prefi
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
@@ -700,7 +712,7 @@ svt.pval <- function(meta.files.prefix, n.files = rep(1, length(meta.files.prefi
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 #' group.file <- system.file("extdata", "SetID.withweights.txt", package = "StocSum")
 #' obj.prep <- G.prep(out.prefix, n.files = 1, group.file = group.file, auto.flip=F)
@@ -822,6 +834,8 @@ G.prep <- function(meta.files.prefix, n.files = rep(1, length(meta.files.prefix)
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
@@ -836,7 +850,7 @@ G.prep <- function(meta.files.prefix, n.files = rep(1, length(meta.files.prefix)
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 #' group.file <- system.file("extdata", "SetID.withweights.txt", package = "StocSum")
 #' obj.prep <- G.prep(out.prefix, n.files = 1, group.file = group.file, auto.flip=F)
@@ -1045,6 +1059,8 @@ G.pval <- function(G.prep.obj, MAF.range = c(1e-7, 0.5), MAF.weights.beta = c(1,
 #' @examples
 #' \donttest{
 #' library(StocSum)
+#' library(GMMAT)
+#' library(data.table)
 #' data(example)
 #' attach(example)
 #' seed <- 12345
@@ -1059,7 +1075,7 @@ G.pval <- function(G.prep.obj, MAF.range = c(1e-7, 0.5), MAF.weights.beta = c(1,
 #'   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 #' }
 #' out.prefix <- "test"
-#' gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+#' gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 #' G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 #' out <- Cond.svt.pval(out.prefix, n.files = 1, tagChr = 1, StartPos = 1, EndPos = 100, tagPos = 82, MAF.range=c(0,0.5), miss.cutoff = 1, auto.flip=F)
 #' print(out)
