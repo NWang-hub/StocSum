@@ -4,40 +4,34 @@
 \alias{LDSC.glmmkin2randomvec}
 \title{Create random vectors for a glmmkin object for LD Score regresion}
 \usage{
-LDSC.glmmkin2randomvec(
-  obj,
-  Z = NULL,
-  N.randomvec = 1000,
-  group.idx = NULL,
-  cluster.idx = NULL,
-  robust = FALSE
-)
+LDSC.glmmkin2randomvec(obj, N.randomvec = 1000)
 }
 \arguments{
 \item{obj}{The glmmkin object.}
 
-\item{Z}{NULL. %% A list of design matrices for the random effects. The length must match the number of variance components.}
-
 \item{N.randomvec}{The number of random vectors to generate (default = 1000).}
-
-\item{group.idx}{NULL. %%A length N index vector showing which observation belongs to which variance group, for heteroscedastic linear mixed models (default = NULL for homoscedastic linear mixed models).}
-
-\item{cluster.idx}{NULL. %% A length N index vector showing which observation belongs to which cluster (default = NULL for no clusters).}
-
-\item{robust}{FALSE. %% A logical switch: whether robust variance should be used (default = FALSE).}
 }
 \value{
-
+A list of class glmmkin.randomvec
+\item{theta}{ set to be 1.}
+\item{scaled.residuals}{inherited from the glmmkin object. A vector or a matrix for the scaled residuals, calculated as the original residuals divided by the dispersion parameter (in heteroscedastic linear mixed models, corresponding residual variance estimates by each group).}
+\item{random.vectors}{A random matrix with dimensions equal to the sample size multiplied by \code{N.randomvec}. as.vector(r) is from multivate normal distribution with mean 0 and covariance matrix \eqn P = I-1inv((t(1)1))t(1).}
+\item{r}{A random matrix with dimensions equal to the sample size multiplied by \code{N.randomvec}. as.vector(r) is from multivate normal distribution with mean 0 and covariance matrix I.}
+\item{id_include}{inherited from the glmmkin object. A vector indivating the samples included in model fit.}
 }
 \description{
 Generate random vectors from multivariate normal distribution with mean 0 and covariance matrix P, in which \eqn P = I-1inv((t(1)1))t(1).
 }
 \examples{
 \donttest{
+library(StocSum)
 library(GMMAT)
+library(data.table)
 data(example)
 attach(example)
-GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+seed <- 12345
+set.seed(seed)
+GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 obj <- LDSC.glmmkin2randomvec(nullmod)

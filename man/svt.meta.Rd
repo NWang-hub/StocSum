@@ -2,7 +2,7 @@
 % Please edit documentation in R/StocSum.R
 \name{svt.meta}
 \alias{svt.meta}
-\title{Performing meta-analysis for GLMM bashed socre test results}
+\title{Performing meta-analysis for GLMM based socre test results}
 \usage{
 svt.meta(
   meta.files.prefix,
@@ -15,19 +15,19 @@ svt.meta(
 )
 }
 \arguments{
-\item{n.files}{an integer vector with the same length as meta.files.prefix, indicating how many sets of intermediate files (.score.* and .var.*) are expected from each cohort, usually as the result of multi-threading in creating the intermediate files (default = rep(1, length(meta.files.prefix))).}
+\item{n.files}{An integer vector with the same length as meta.files.prefix, indicating how many sets of intermediate files (.score.* and .var.*) are expected from each cohort, usually as the result of multi-threading in creating the intermediate files (default = rep(1, length(meta.files.prefix))).}
 
-\item{outfile.prefix}{a character vector for prefix of intermediate files (*.sample.* and *.resample.*) which stores summary statistics and stochatic statistics of meta-analysis.}
+\item{outfile.prefix}{A character vector for prefix of intermediate files (*.sample.* and *.resample.*) which stores summary statistics and stochatic statistics of meta-analysis.}
 
-\item{MAF.range}{a numeric vector of length 2 defining the minimum and maximum minor allele frequencies of variants that should be included in the analysis (default = c(1e-7, 0.5)).}
+\item{MAF.range}{A numeric vector of length 2 defining the minimum and maximum minor allele frequencies of variants that should be included in the analysis (default = c(1e-7, 0.5)).}
 
-\item{auto.flip}{a logical switch for whether to enable automatic allele flipping if a variant with alleles ref/alt is not found at a position, but a variant at the same position with alleles alt/ref is found (default = FALSE). Use with caution for whole genome sequence data, as both ref/alt and alt/ref variants at the same position are not uncommon, and they are likely two different variants, rather than allele flipping.}
+\item{miss.cutoff}{The maximum missing rate allowed for a variant to be included (default = 1, including all variants).}
 
-\item{nperbatch}{an integer for how many SNPs to be included in a batch (default = 10000). The computational time can increase dramatically if this value is either small or large. The optimal value for best performance depends on the user’s system.}
+\item{auto.flip}{A logical switch for whether to enable automatic allele flipping if a variant with alleles ref/alt is not found at a position, but a variant at the same position with alleles alt/ref is found (default = FALSE). Use with caution for whole genome sequence data, as both ref/alt and alt/ref variants at the same position are not uncommon, and they are likely two different variants, rather than allele flipping.}
 
-\item{meta.file.prefix}{a character vector for prefix of intermediate files (*.sample.* and *.resample.*) which stores summary statistics and stochastic statistics calculated from \code{G.stat}.}
+\item{nperbatch}{An integer for how many SNPs to be included in a batch (default = 10000). The computational time can increase dramatically if this value is either small or large. The optimal value for best performance depends on the user’s system.}
 
-\item{missing.cutoff}{the maximum missing rate allowed for a variant to be included (default = 1, including all variants).}
+\item{meta.file.prefix}{A character vector for prefix of intermediate files (*.sample.* and *.resample.*) which stores summary statistics and stochastic statistics calculated from \code{G.stat}.}
 }
 \value{
 NULL. \code{svt.meta} will store the summary statistics and the stochastic in two files with the prefix specified by the user.
@@ -37,10 +37,14 @@ Use summary statistics and stochastic statistics from \code{G.stat} to peform me
 }
 \examples{
 \donttest{
+library(StocSum)
 library(GMMAT)
+library(data.table)
 data(example)
 attach(example)
-GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+seed <- 12345
+set.seed(seed)
+GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 if(!is.null(nullmod$P)){
@@ -50,9 +54,24 @@ if(!is.null(nullmod$P)){
   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 }
 out.prefix <- "test"
-gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
-G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
-NOT DONE!!!!!!!!!!!!!!!!
+gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
+G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
+GRM1.file <- system.file("extdata", "GRM1.txt.bz2", package = "StocSum")
+GRM1 <- as.matrix(read.table(GRM1.file, check.names = FALSE))
+pheno1.file <- system.file("extdata", "pheno1.txt", package = "StocSum")
+pheno1 <- as.data.frame(read.table(pheno1.file, header=T,check.names = FALSE))
+nullmod1 <- glmmkin(disease ~ age + sex, data = pheno1, kins = GRM1, id = "id", family = binomial(link = "logit"))
+if(!is.null(nullmod$P)){
+  obj1 <- glmmkin2randomvec(nullmod1)
+}else{
+  kinship1.chol <- chol(GRM1)
+  obj1 <- glmmkin2randomvec(nullmod1, Z = list(t(kinship1.chol)))
+}
+out.prefix1 <- "test1"
+gdsfile1 <- system.file("extdata", "geno1.gds", package = "StoSum")
+G.stat(obj1, geno.file = gdsfile1, meta.file.prefix = out.prefix1, MAF.range=c(0,0.5), miss.cutoff = 1)
+outMeta.prefix <- "comp.meta"
+svt.meta(c("test", "test1"),n.files = rep(1, 2), outfile.prefix=outMeta.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
 }
 }
 \seealso{

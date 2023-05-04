@@ -23,7 +23,7 @@ glmmkin2randomvec(
 )
 }
 \arguments{
-\item{obj}{The glmmkin object.}
+\item{obj}{A glmmkin object.}
 
 \item{Z}{A list of design matrices for the random effects. The length must match the number of variance components.}
 
@@ -37,18 +37,18 @@ glmmkin2randomvec(
 }
 \value{
 A list of class glmmkin.randomvec
-\item{theta}{Variance estimates, inherited from the glmmkin object.}
-\item{scaled.residuals}{Scaled residuals, inherited from the glmmkin object.}
-\item{random.vectors}{An N by N.randomvec matrix of the random vectors generated.}
-\item{X}{model matrix for the fixed effects from the glmmkin object}
-\item{id_include}{The ID vector of included samples, inherited from the glmmkin object.}
+\item{theta}{inherited from the glmmkin object. A vector or a list of variance component parameter estimates.}
+\item{scaled.residuals}{inherited from the glmmkin object. A vector or a matrix for the scaled residuals, calculated as the original residuals divided by the dispersion parameter (in heteroscedastic linear mixed models, corresponding residual variance estimates by each group).}
+{random.vectors}{A random matrix with dimensions equal to the sample size multiplied by \code{N.randomvec}.}
+\item{X}{inherited from the glmmkin object. Model matrix for the fixed effects.}
+\item{id_include}{inherited from the glmmkin object. A vector indivating the samples included in model fit.}
 
 A list of class glmmkin.randomvec
-\item{theta}{Variance estimates, inherited from the glmmkin object.}
-\item{scaled.residuals}{Scaled residuals, inherited from the glmmkin object.}
-\item{random.vectors}{An N by N.randomvec matrix of the random vectors generated.}
-\item{X}{model matrix for the fixed effects from the glmmkin object}
-\item{id_include}{The ID vector of included samples, inherited from the glmmkin object.}
+\item{theta}{inherited from the glmmkin object. A vector or a list of variance component parameter estimates.}
+\item{scaled.residuals}{inherited from the glmmkin object. A vector or a matrix for the scaled residuals, calculated as the original residuals divided by the dispersion parameter (in heteroscedastic linear mixed models, corresponding residual variance estimates by each group).}
+\item{random.vectors}{A random matrix with dimensions equal to the sample size multiplied by \code{N.randomvec}.}
+\item{X}{inherited from the glmmkin object. Model matrix for the fixed effects.}
+\item{id_include}{inherited from the glmmkin object. A vector indivating the samples included in model fit.}
 }
 \description{
 Generate random vectors from multivariate normal distribution with mean 0 and covariance matrix P.
@@ -57,10 +57,13 @@ Generate random vectors from multivariate normal distribution with mean 0 and co
 }
 \examples{
 \donttest{
+library(StocSum)
 library(GMMAT)
 data(example)
 attach(example)
-GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+seed <- 12345
+set.seed(seed)
+GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 if(!is.null(nullmod$P)){
@@ -71,23 +74,19 @@ if(!is.null(nullmod$P)){
 }
 }
 \donttest{
+library(StocSum)
 library(GMMAT)
+library(data.table)
 data(example)
 attach(example)
-GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+seed <- 12345
+set.seed(seed)
+GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
-if(!is.null(nullmod$P)){
-  obj <- glmmkin2randomvec(nullmod)
-}else{
-  kinship.chol <- chol(GRM)
-  obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
-}
 }
 }
 \author{
-Han Chen, Nannan Wang
-
 Han Chen, Nannan Wang
 }
 \keyword{random}

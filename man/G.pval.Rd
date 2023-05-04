@@ -5,47 +5,32 @@
 \title{Variant Set Mixed Model Association Tests (StocSum)}
 \usage{
 G.pval(
-  meta.files.prefix,
-  n.files = rep(1, length(meta.files.prefix)),
-  cohort.group.idx = NULL,
-  group.file,
-  group.file.sep = "\\t",
+  G.prep.obj,
   MAF.range = c(1e-07, 0.5),
   MAF.weights.beta = c(1, 25),
   miss.cutoff = 1,
   method = "davies",
   tests = "E",
   rho = c(0, 0.1^2, 0.2^2, 0.3^2, 0.4^2, 0.5^2, 0.5, 1),
-  use.minor.allele = FALSE,
-  auto.flip = FALSE
+  use.minor.allele = FALSE
 )
 }
 \arguments{
-\item{n.files}{an integer vector with the same length as meta.files.prefix, indicating how many sets of intermediate files (.score.* and .var.*) are expected from each cohort, usually as the result of multi-threading in creating the intermediate files (default = rep(1, length(meta.files.prefix))).}
+\item{G.prep.obj}{A class G.prep object, returned by \code{G.prep}.}
 
-\item{cohort.group.idx}{a vector with the same length as meta.files.prefix, indicating which cohorts should be grouped together in the meta-analysis assuming homogeneous genetic effects. For example, c("a","b","a","a","b") means cohorts 1, 3, 4 are assumed to have homogeneous genetic effects, and cohorts 2, 5 are in another group with homogeneous genetic effects (but possibly heterogeneous with group "a"). If NULL, all cohorts are in the same group (default = NULL).}
+\item{MAF.range}{A numeric vector of length 2 defining the minimum and maximum minor allele frequencies of variants that should be included in the analysis (default = c(1e-7, 0.5)).}
 
-\item{group.file}{a plain text file with 6 columns defining the test units. There should be no headers in the file, and the columns are group name, chromosome, position, reference allele, alternative allele and weight, respectively.}
+\item{miss.cutoff}{The maximum missing rate allowed for a variant to be included (default = 1, including all variants).}
 
-\item{group.file.sep}{the delimiter in group.file (default = "\\t").}
+\item{method}{A method to compute p-values for SKAT-type test statistics (default = "davies"). "davies" represents an exact method that computes a p-value by inverting the characteristic function of the mixture chisq distribution, with an accuracy of 1e-6. When "davies" p-value is less than 1e-5, it defaults to method "kuonen". "kuonen" represents a saddlepoint approximation method that computes the tail probabilities of the mixture chisq distribution. When "kuonen" fails to compute a p-value, it defaults to method "liu". "liu" is a moment-matching approximation method for the mixture chisq distribution.}
 
-\item{MAF.range}{a numeric vector of length 2 defining the minimum and maximum minor allele frequencies of variants that should be included in the analysis (default = c(1e-7, 0.5)).}
+\item{tests}{A character vector indicating which tests should be performed ("B" for the burden test, "S" for SKAT, "O" for SKAT-O and "E" for the efficient hybrid test of the burden test and SKAT). The burden test and SKAT are automatically included when performing "O", and the burden test is automatically included when performing "E" (default = "E").}
 
-\item{method}{a method to compute p-values for SKAT-type test statistics (default = "davies"). "davies" represents an exact method that computes a p-value by inverting the characteristic function of the mixture chisq distribution, with an accuracy of 1e-6. When "davies" p-value is less than 1e-5, it defaults to method "kuonen". "kuonen" represents a saddlepoint approximation method that computes the tail probabilities of the mixture chisq distribution. When "kuonen" fails to compute a p-value, it defaults to method "liu". "liu" is a moment-matching approximation method for the mixture chisq distribution.}
+\item{rho}{A numeric vector defining the search grid used in SKAT-O (see the SKAT-O paper for details). Not used for the burden test, SKAT or the efficient hybrid test of the burden test and SKAT (default = c(0, 0.1^2, 0.2^2, 0.3^2, 0.4^2, 0.5^2, 0.5, 1)).}
 
-\item{tests}{a character vector indicating which tests should be performed ("B" for the burden test, "S" for SKAT, "O" for SKAT-O and "E" for the efficient hybrid test of the burden test and SKAT). The burden test and SKAT are automatically included when performing "O", and the burden test is automatically included when performing "E" (default = "E").}
+\item{use.minor.allele}{A logical switch for whether to use the minor allele (instead of the alt allele) as the coding allele (default = FALSE). It does not change SKAT results, but Burden (as well as SKAT-O and hybrid test to combine the burden test and SKAT) will be affected. Along with the MAF filter, this option is useful for combining rare mutations, assuming rare allele effects are in the same direction. Use with caution, as major/minor alleles may flip in different cohorts. In that case, minor allele will be determined based on the allele frequency in the combined samples.}
 
-\item{rho}{a numeric vector defining the search grid used in SKAT-O (see the SKAT-O paper for details). Not used for the burden test, SKAT or the efficient hybrid test of the burden test and SKAT (default = c(0, 0.1^2, 0.2^2, 0.3^2, 0.4^2, 0.5^2, 0.5, 1)).}
-
-\item{use.minor.allele}{a logical switch for whether to use the minor allele (instead of the alt allele) as the coding allele (default = FALSE). It does not change SKAT results, but Burden (as well as SKAT-O and hybrid test to combine the burden test and SKAT) will be affected. Along with the MAF filter, this option is useful for combining rare mutations, assuming rare allele effects are in the same direction. Use with caution, as major/minor alleles may flip in different cohorts. In that case, minor allele will be determined based on the allele frequency in the combined samples.}
-
-\item{auto.flip}{a logical switch for whether to enable automatic allele flipping if a variant with alleles ref/alt is not found at a position, but a variant at the same position with alleles alt/ref is found (default = FALSE). Use with caution for whole genome sequence data, as both ref/alt and alt/ref variants at the same position are not uncommon, and they are likely two different variants, rather than allele flipping.}
-
-\item{meta.file.prefix}{a character vector for prefix of intermediate files (*.sample.* and *.resample.*).}
-
-\item{MAF.weight.beta}{a numeric vector of length 2 defining the beta probability density function parameters on the minor allele frequencies. This internal minor allele frequency weight is multiplied by the external weight given by the group.file. To turn off internal minor allele frequency weight and only use the external weight given by the group.file, use c(1, 1) to assign flat weights (default = c(1, 25)). Applied to the combined samples.}
-
-\item{missing.cutoff}{the maximum missing rate allowed for a variant to be included (default = 1, including all variants).}
+\item{MAF.weight.beta}{A numeric vector of length 2 defining the beta probability density function parameters on the minor allele frequencies. This internal minor allele frequency weight is multiplied by the external weight given by the group.file. To turn off internal minor allele frequency weight and only use the external weight given by the group.file, use c(1, 1) to assign flat weights (default = c(1, 25)). Applied to the combined samples.}
 }
 \value{
 \code{G.pval} returns a data frame with the following components:
@@ -59,14 +44,18 @@ G.pval(
 \item{E.pval}{efficient hybrid test of the burden test and SKAT p-value (avaiable if test is SMMAT).}
 }
 \description{
-Variant Set Mixed Model Association Tests (the burden test, SKAT, SKAT-O, and an efficient hybrid test to combine the burden test and SKAT) for multiple user-defined test units and a null generalized linear mixed model.
+
 }
 \examples{
 \donttest{
+library(StocSum)
 library(GMMAT)
+library(data.table)
 data(example)
 attach(example)
-GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+seed <- 12345
+set.seed(seed)
+GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 if(!is.null(nullmod$P)){
@@ -76,14 +65,19 @@ if(!is.null(nullmod$P)){
   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 }
 out.prefix <- "test"
-gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
-group.file <- system.file("extdata", "SetID.withweights.txt", package = "GMMAT")
-out2 <- G.pval(out.prefix, group.file = group.file, MAF.range=c(0,0.5), miss.cutoff = 1)
+group.file <- system.file("extdata", "SetID.withweights.txt", package = "StocSum")
+obj.prep <- G.prep(out.prefix, n.files = 1, group.file = group.file, auto.flip=F)
+save(obj.prep,file=paste0(out.prefix,".prepobj.Rdata"))
+obj.prep <- get(load(paste0(out.prefix,".prepobj.Rdata")))
+out <- G.pval(obj.prep, MAF.range = c(0,0.5), miss.cutoff = 1, method = "davies")
+print(out)
+unink(paste0(out.prefix,"prepobj.Rdata"))
 }
 }
 \seealso{
-\code{glmmkin2randomvec}, \code{G.stat}
+\code{glmmkin2randomvec}, \code{G.stat}, \code{G.prep}
 }
 \author{
 Han Chen, Nannan Wang
