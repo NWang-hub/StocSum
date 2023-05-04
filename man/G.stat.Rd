@@ -40,10 +40,10 @@ Calculate summary statistics and stochastic statistics.
 }
 \examples{
 \donttest{
-library(GMMAT)
+library(StocSum)
 data(example)
 attach(example)
-GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "GMMAT")
+GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
 GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
 nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
 if(!is.null(nullmod$P)){
@@ -53,7 +53,7 @@ if(!is.null(nullmod$P)){
   obj<-glmmkin2randomvec(nullmod, Z = list(t(kinship.chol)))
 }
 out.prefix <- "test"
-gdsfile <- system.file("extdata", "geno.gds", package = "GMMAT")
+gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 }
 }
