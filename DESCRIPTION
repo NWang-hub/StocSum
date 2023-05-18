@@ -1,19 +1,21 @@
 Package: StocSum
 Version: 0.1.0
-Date: 2022-01-01
-Title: StocSum
+Date: 2023-05-15
+Title: StocSum(Stochastic Summary statistics for whole genome
+        sequencing studies)
 Author: Han Chen, Nannan Wang
-Maintainer: Han Chen <Han.Chen.2@uth.tmc.edu>
-Description: StocSum(TBD)
+Maintainer: Nannan Wang <nannan.wang@uth.tmc.edu>,
+ Han Chen <Han.Chen.2@uth.tmc.edu>
+Description: StocSum is a novel reference-panel-free statistical framework for generating, managing, and analyzing stochastic summary statistics using random vectors. Instead of using external reference panel, StocSum introduces a stochastic summary statistic from study samples to represent the between-variant correlation or LD matrices. It is implemented to various downstream applications, including single-variant tests, conditional association tests, gene-environment interaction tests, variant set tests, as well as meta-analysis and LD score regression tools.
 License: GPL (>= 3)
 LazyData: true
 Copyright: See COPYRIGHTS for details.
-Imports: Rcpp, SeqArray, SeqVarTools, CompQuadForm, foreach, GMMAT, parallel,
-        Matrix, methods, data.table
+Imports: Rcpp, SeqArray, SeqVarTools, CompQuadForm, foreach, GMMAT,
+        parallel, Matrix, methods, data.table
 Suggests: doMC, testthat
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
 NeedsCompilation: yes
 Depends: R (>= 3.2.0)
-Packaged: 2022-01-01 06:06:08 UTC; nwang
-RoxygenNote: 7.1.2
+Packaged: 2023-05-18 05:41:42 UTC; nwang
+RoxygenNote: 7.2.3
