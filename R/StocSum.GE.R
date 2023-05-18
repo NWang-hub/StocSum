@@ -423,7 +423,7 @@ GE.stat <- function(null.obj, interaction, interaction.covariates = NULL, geno.f
 #' interaction <- c("sex")
 #' GE.stat(obj, interaction = interaction, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 #' out.file<-paste0(out.prefix,".out")
-#' GE.svt.pval(meta.files.prefix = out.prefix, out.file, n.files = 1, n.pheno = 1, interaction=interaction, MAF.range=c(1e-7,0.5), miss.cutoff = 1, auto.flip=F)
+#' GE.svt.pval(meta.files.prefix = out.prefix, out.file, n.files = 1, n.pheno = 1, interaction=interaction, MAF.range=c(1e-7,0.5), miss.cutoff = 1, auto.flip=FALSE)
 #' }
 #' @keywords generalized linear mixed model, gene-environment interaction
 #' @export
@@ -708,8 +708,8 @@ fisher_pval <- function(p) {
     if(class(V.svd)[1] == "try-error") {
         dim1 <- nrow(V)
         dim2 <- ncol(V)
-        if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V), symmetric = T, only.values = T)$values)
-        else lambda <- zapsmall(eigen(crossprod(V), symmetric = T, only.values = T)$values)
+        if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V), symmetric = TRUE, only.values = TRUE)$values)
+        else lambda <- zapsmall(eigen(crossprod(V), symmetric = TRUE, only.values = TRUE)$values)
     } else lambda <- zapsmall(V.svd$d^2)
     lambda <- lambda[lambda > 0]
     pval <- .Q_pval(Q, lambda, method = method)
@@ -743,8 +743,8 @@ fisher_pval <- function(p) {
         if(class(V.temp.svd)[1] == "try-error") {
             dim1 <- nrow(V.temp)
             dim2 <- ncol(V.temp)
-            if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V.temp), symmetric = T, only.values = T)$values)
-            else lambda <- zapsmall(eigen(crossprod(V.temp), symmetric = T, only.values = T)$values)
+            if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V.temp), symmetric = TRUE, only.values = TRUE)$values)
+            else lambda <- zapsmall(eigen(crossprod(V.temp), symmetric = TRUE, only.values = TRUE)$values)
         } else lambda <- zapsmall(V.temp.svd$d^2)
         lambdas[[i]] <- lambda[lambda > 0]
         pval[i] <- .Q_pval(Q[i], lambdas[[i]], method = method)
@@ -761,8 +761,8 @@ fisher_pval <- function(p) {
     if(class(V.temp.svd)[1] == "try-error") {
         dim1 <- nrow(V.temp)
         dim2 <- ncol(V.temp)
-        if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V.temp), symmetric = T, only.values = T)$values)
-        else lambda <- zapsmall(eigen(crossprod(V.temp), symmetric = T, only.values = T)$values)
+        if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V.temp), symmetric = TRUE, only.values = TRUE)$values)
+        else lambda <- zapsmall(eigen(crossprod(V.temp), symmetric = TRUE, only.values = TRUE)$values)
     } else lambda <- zapsmall(V.temp.svd$d^2)
     lambda <- lambda[lambda > 0]
     muq <- sum(lambda)
@@ -800,8 +800,8 @@ fisher_pval <- function(p) {
     if(class(V.svd)[1] == "try-error") {
         dim1 <- nrow(V)
         dim2 <- ncol(V)
-        if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V), symmetric = T, only.values = T)$values)
-        else lambda <- zapsmall(eigen(crossprod(V), symmetric = T, only.values = T)$values)
+        if(dim1 < dim2) lambda <- zapsmall(eigen(tcrossprod(V), symmetric = TRUE, only.values = TRUE)$values)
+        else lambda <- zapsmall(eigen(crossprod(V), symmetric = TRUE, only.values = TRUE)$values)
     } else lambda <- zapsmall(V.svd$d^2)
     lambda <- lambda[lambda > 0]
     pval <- .Q_pval(Q, lambda, method = method)
