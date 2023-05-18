@@ -64,7 +64,7 @@ if(!is.null(nullmod$P)){
 out.prefix <- "test"
 gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)
-out <- svt.pval(out.prefix, MAF.range=c(1e-7, 0.5), miss.cutoff = 1, auto.flip=F)
+out <- svt.pval(out.prefix, MAF.range=c(1e-7, 0.5), miss.cutoff = 1, auto.flip=FALSE)
 }
 }
 \seealso{

@@ -59,7 +59,7 @@ G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix, MAF.range=c(0,0.
 GRM1.file <- system.file("extdata", "GRM1.txt.bz2", package = "StocSum")
 GRM1 <- as.matrix(read.table(GRM1.file, check.names = FALSE))
 pheno1.file <- system.file("extdata", "pheno1.txt", package = "StocSum")
-pheno1 <- as.data.frame(read.table(pheno1.file, header=T,check.names = FALSE))
+pheno1 <- as.data.frame(read.table(pheno1.file, header=TRUE,check.names = FALSE))
 nullmod1 <- glmmkin(disease ~ age + sex, data = pheno1, kins = GRM1, id = "id", family = binomial(link = "logit"))
 if(!is.null(nullmod$P)){
   obj1 <- glmmkin2randomvec(nullmod1)
@@ -68,7 +68,7 @@ if(!is.null(nullmod$P)){
   obj1 <- glmmkin2randomvec(nullmod1, Z = list(t(kinship1.chol)))
 }
 out.prefix1 <- "test1"
-gdsfile1 <- system.file("extdata", "geno1.gds", package = "StoSum")
+gdsfile1 <- system.file("extdata", "geno1.gds", package = "StocSum")
 G.stat(obj1, geno.file = gdsfile1, meta.file.prefix = out.prefix1, MAF.range=c(0,0.5), miss.cutoff = 1)
 outMeta.prefix <- "comp.meta"
 svt.meta(c("test", "test1"),n.files = rep(1, 2), outfile.prefix=outMeta.prefix, MAF.range=c(0,0.5), miss.cutoff = 1)

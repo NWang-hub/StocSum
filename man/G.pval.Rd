@@ -68,12 +68,12 @@ out.prefix <- "test"
 gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 group.file <- system.file("extdata", "SetID.withweights.txt", package = "StocSum")
-obj.prep <- G.prep(out.prefix, n.files = 1, group.file = group.file, auto.flip=F)
+obj.prep <- G.prep(out.prefix, n.files = 1, group.file = group.file, auto.flip=FALSE)
 save(obj.prep,file=paste0(out.prefix,".prepobj.Rdata"))
 obj.prep <- get(load(paste0(out.prefix,".prepobj.Rdata")))
 out <- G.pval(obj.prep, MAF.range = c(0,0.5), miss.cutoff = 1, method = "davies")
 print(out)
-unink(paste0(out.prefix,"prepobj.Rdata"))
+unlink(paste0(out.prefix,"prepobj.Rdata"))
 }
 }
 \seealso{

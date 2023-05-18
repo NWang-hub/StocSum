@@ -64,7 +64,7 @@ gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 interaction <- c("sex")
 GE.stat(obj, interaction = interaction, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
 out.file<-paste0(out.prefix,".out")
-GE.svt.pval(meta.files.prefix = out.prefix, out.file, n.files = 1, n.pheno = 1, interaction=interaction, MAF.range=c(1e-7,0.5), miss.cutoff = 1, auto.flip=F)
+GE.svt.pval(meta.files.prefix = out.prefix, out.file, n.files = 1, n.pheno = 1, interaction=interaction, MAF.range=c(1e-7,0.5), miss.cutoff = 1, auto.flip=FALSE)
 }
 }
 \seealso{

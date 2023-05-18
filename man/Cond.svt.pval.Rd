@@ -79,7 +79,7 @@ if(!is.null(nullmod$P)){
 out.prefix <- "test"
 gdsfile <- system.file("extdata", "geno.gds", package = "StocSum")
 G.stat(obj, geno.file = gdsfile, meta.file.prefix = out.prefix,MAF.range=c(0,0.5), miss.cutoff = 1)
-out <- Cond.svt.pval(out.prefix, n.files = 1, tagChr = 1, StartPos = 1, EndPos = 100, tagPos = 82, MAF.range=c(0,0.5), miss.cutoff = 1, auto.flip=F)
+out <- Cond.svt.pval(out.prefix, n.files = 1, tagChr = 1, StartPos = 1, EndPos = 100, tagPos = 82, MAF.range=c(0,0.5), miss.cutoff = 1)
 print(out)
 }
 }
