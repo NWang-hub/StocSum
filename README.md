@@ -22,6 +22,8 @@ StocSum is an open source project and is freely available for download at https:
 install.packages(c("devtools", "RcppArmadillo", "CompQuadForm", "doMC", "foreach", "Matrix", "data.table", "GMMAT", "BiocManager", "testthat"), repos="https://cran.r-project.org/")
 BiocManager::install(c("SeqArray", "SeqVarTools"))
 devtools::install_github(repo="https://github.com/NWang-hub/StocSum")
+
+Note: Installing the StocSum package typically takes less than 20 seconds on a MacBook Pro with 8GB of memory and 8 cores, provided that all required dependency packages are already installed. Running the test examples included in the package take less than 60 seconds.  
 ```
 ## Usage
 Please see the <a href="vignettes/StocSum_tutorial.pdf">**StocSum** tutorial</a> for an example of analyzing sequencing data using StocSum.
