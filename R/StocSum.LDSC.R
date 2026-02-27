@@ -29,9 +29,7 @@ glmmkin2randomvec <- function(obj, N.randomvec = 1000) {
     random.vectors <- matrix(rnorm(N*N.randomvec), nrow = N, ncol = N.randomvec)
     # r<-random.vectors
     obj$P<-NULL
-    #obj$Sigma_i<-diag(N)
     obj$Sigma_iX<-matrix(1,N,1)
-    # obj$cov<-as.matrix(1/N)
     obj$cov<-1/N
     obj$theta<-1
     obj$n.groups<-1
