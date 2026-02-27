@@ -27,18 +27,8 @@ glmmkin2randomvec <- function(obj, N.randomvec = 1000) {
     if(class(obj) != "glmmkin") stop("Error: \"obj\" must be a class glmmkin object.")
     N <- length(obj$id_include)
     random.vectors <- matrix(rnorm(N*N.randomvec), nrow = N, ncol = N.randomvec)
-    # r<-random.vectors
-    obj$P<-NULL
-    obj$Sigma_iX<-matrix(1,N,1)
-    obj$cov<-1/N
-    obj$theta<-1
-    obj$n.groups<-1
-    Z <- NULL
-    group.idx = NULL
-    if(is.null(group.idx)) group.idx <- rep(1, N)
-    random.vectors <- sqrt(obj$theta[group.idx]) * random.vectors
-    random.vectors <- random.vectors - tcrossprod(obj$Sigma_iX, matrix(colSums(random.vectors),ncol=1)*obj$cov)
-    out <- list( random.vectors = as.matrix(random.vectors),id_include = obj$id_include)
+    random.vectors <- scale(random.vectors, center = TRUE, scale = FALSE)
+    out <- list( random.vectors = random.vectors,id_include = obj$id_include)
     class(out) <- "glmmkin.randomvec"  #LDSC.randomvec
     return(out)
 }
