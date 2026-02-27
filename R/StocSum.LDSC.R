@@ -1,38 +1,3 @@
-#' Create random vectors for a glmmkin object for LD Score regresion
-#' @description Generate random vectors from multivariate normal distribution with mean 0 and covariance matrix P, in which \eqn P = I-1inv((t(1)1))t(1).
-#' @param obj The glmmkin object.
-#' @param N.randomvec The number of random vectors to generate (default = 1000).
-#' @return A list of class glmmkin.randomvec
-#' \item{random.vectors}{A random matrix with dimensions equal to the sample size multiplied by \code{N.randomvec}. as.vector(r) is from multivate normal distribution with mean 0 and covariance matrix \eqn P = I-1inv((t(1)1))t(1).}
-#' \item{id_include}{inherited from the glmmkin object. A vector indivating the samples included in model fit.}
-#' @reference 
-#' @author Han Chen, Nannan Wang
-#' @examples
-#' \donttest{
-#' library(StocSum)
-#' library(GMMAT)
-#' library(data.table)
-#' data(example)
-#' attach(example)
-#' seed <- 12345
-#' set.seed(seed)
-#' GRM.file <- system.file("extdata", "GRM.txt.bz2", package = "StocSum")
-#' GRM <- as.matrix(read.table(GRM.file, check.names = FALSE))
-#' nullmod <- glmmkin(disease ~ age + sex, data = pheno, kins = GRM, id = "id", family = binomial(link = "logit"))
-#' obj <- LDSC.glmmkin2randomvec(nullmod)
-#' }
-#' @keywords random vector
-#' @export
-glmmkin2randomvec <- function(obj, N.randomvec = 1000) {
-    if(class(obj) != "glmmkin") stop("Error: \"obj\" must be a class glmmkin object.")
-    N <- length(obj$id_include)
-    random.vectors <- matrix(rnorm(N*N.randomvec), nrow = N, ncol = N.randomvec)
-    random.vectors <- scale(random.vectors, center = TRUE, scale = FALSE)
-    out <- list( random.vectors = random.vectors,id_include = obj$id_include)
-    class(out) <- "glmmkin.randomvec"  #LDSC.randomvec
-    return(out)
-}
-
 
 ####LDSC.stat is same as G.stat
 #' Calculate summary statistics and stochastic statistics
