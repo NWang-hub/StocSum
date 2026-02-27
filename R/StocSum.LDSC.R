@@ -23,7 +23,7 @@
 #' }
 #' @keywords random vector
 #' @export
-LDSC.glmmkin2randomvec <- function(obj, N.randomvec = 1000) {
+glmmkin2randomvec <- function(obj, N.randomvec = 1000) {
     if(class(obj) != "glmmkin") stop("Error: \"obj\" must be a class glmmkin object.")
     N <- length(obj$id_include)
     random.vectors <- matrix(rnorm(N*N.randomvec), nrow = N, ncol = N.randomvec)
