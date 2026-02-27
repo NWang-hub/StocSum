@@ -1,5 +1,5 @@
 
-####LDSC.stat is same as G.stat
+####
 #' Calculate summary statistics and stochastic statistics
 #' @description Calculate summary statistics and stochastic statistics.
 #' @param null.obj A class glmmkin.randomvec object, returned by generating random vectors using \code{glmmkin2randomvec}.
